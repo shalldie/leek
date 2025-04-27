@@ -3,6 +3,13 @@ package stock
 import (
 	"fmt"
 	"strings"
+
+	"github.com/charmbracelet/lipgloss"
+)
+
+var (
+	COLOR_RED   = lipgloss.Color("#f00")
+	COLOR_GREEN = lipgloss.Color("#090")
 )
 
 func f2str(num float64, maxDec int32) string {
@@ -33,10 +40,10 @@ type Stock struct {
 }
 
 func (s *Stock) Reset() {
-	s.Price = "---"
-	s.PrePrice = "---"
-	s.Rise = "---"
-	s.Rate = "---"
+	s.Price = "-"
+	s.PrePrice = "-"
+	s.Rise = "-"
+	s.Rate = "-"
 }
 
 func (s *Stock) Update() {
@@ -44,17 +51,17 @@ func (s *Stock) Update() {
 	rise := price - prePrice
 	rate := rise / prePrice
 
-	// s.Price = fmt.Sprintf("%.3f", price)
 	s.Price = f2str(price, 3)
-	// s.PrePrice = fmt.Sprintf("%.3f", prePrice)
 	s.PrePrice = f2str(prePrice, 3)
-	// s.Rise = fmt.Sprintf("%.3f", rise)
 	s.Rise = f2str(rise, 3)
-	// s.Rate = fmt.Sprintf("%.2f", rate*100) + "%"
 	s.Rate = f2str(rate*100, 2) + "%"
-}
 
-func (s *Stock) String() string {
-	result := fmt.Sprintf("%s：\n当前价格：%s，涨跌：%s，涨幅：%s", s.Name, s.Price, s.Rise, s.Rate)
-	return result
+	// 着色，添加 「+」
+	if rise >= 0 {
+		s.Rise = lipgloss.NewStyle().Foreground(COLOR_RED).Render("+" + s.Rise)
+		s.Rate = lipgloss.NewStyle().Foreground(COLOR_RED).Render("+" + s.Rate)
+	} else {
+		s.Rise = lipgloss.NewStyle().Foreground(COLOR_GREEN).Render(s.Rise)
+		s.Rate = lipgloss.NewStyle().Foreground(COLOR_GREEN).Render(s.Rate)
+	}
 }
