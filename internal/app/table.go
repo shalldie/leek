@@ -38,7 +38,7 @@ func (t TableModel) View() string {
 func NewTable(headers []string, getRows func() [][]string) TableModel {
 
 	headerStyle := lipgloss.NewStyle().Bold(false).Align(lipgloss.Center)
-	cellStyle := lipgloss.NewStyle().Padding(0, 2).Width(12)
+	cellStyle := lipgloss.NewStyle().Padding(0, 2)
 
 	table := table.New().
 		Border(lipgloss.RoundedBorder()).
@@ -50,7 +50,7 @@ func NewTable(headers []string, getRows func() [][]string) TableModel {
 			case col == 0: // name
 				return cellStyle
 			default: // 指标
-				return cellStyle.Align(lipgloss.Right)
+				return cellStyle.Align(lipgloss.Center)
 			}
 		}).
 		Headers(headers...)

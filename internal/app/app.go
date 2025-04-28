@@ -47,11 +47,11 @@ func (m AppModel) View() string {
 func Run() {
 
 	app = tea.NewProgram(AppModel{
-		gold: NewTable([]string{"名称", "涨跌", "涨幅"}, func() [][]string {
+		gold: NewTable([]string{"名称", "价格", "涨跌", "涨幅"}, func() [][]string {
 			rows := [][]string{}
 
 			for _, item := range store.State.Golds {
-				rows = append(rows, []string{item.Name, item.Rise, item.Rate})
+				rows = append(rows, []string{item.Name, item.Price, item.Rise, item.Rate})
 			}
 			return rows
 		}),
@@ -71,7 +71,7 @@ func Run() {
 		}
 
 		handler()
-		utils.NewIntervalTimer(time.Second*3, handler)
+		utils.NewIntervalTimer(time.Second, handler)
 	}()
 
 	if _, err := app.Run(); err != nil {
