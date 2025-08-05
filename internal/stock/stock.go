@@ -93,7 +93,13 @@ func (s *Stock) Reset() {
 func (s *Stock) Update() {
 
 	err := utils.Try(func() {
-		nextStock := s.UpdateFn()
+		updateFn := s.UpdateFn
+		if updateFn == nil {
+			updateFn = func() *Stock {
+				return GetInfoFromSina([]string{s.Code})[s.Code]
+			}
+		}
+		nextStock := updateFn()
 		s.Assign(nextStock)
 		s.Compute()
 	})

@@ -28,6 +28,7 @@ func (s *storeState) Reset() {
 // 更新当前分类所有数据
 func (s *storeState) Update() {
 	var wg sync.WaitGroup
+
 	for _, item := range s.Stocks() {
 		wg.Add(1)
 		go func() {
@@ -71,24 +72,28 @@ var State = &storeState{
 					Code: "512820",
 					// UpdateFn: stock.CreateUpdateFromEast("1.512820"),
 					// UpdateFn: stock.CreateUpdateFromSina("sh512820", 3, 2),
-					UpdateFn: func() *stock.Stock {
-						return stock.GetInfoFromSina([]string{"512820"})["512820"]
-					},
+					// UpdateFn: func() *stock.Stock {
+					// 	return stock.GetInfoFromSina([]string{"512820"})["512820"]
+					// },
 				},
 				{
 					// Name: "王子新材",
 					Code: "002735",
-					UpdateFn: func() *stock.Stock {
-						return stock.GetInfoFromSina([]string{"002735"})["002735"]
-					},
+					// UpdateFn: func() *stock.Stock {
+					// 	return stock.GetInfoFromSina([]string{"002735"})["002735"]
+					// },
 				},
 				// {
 				// 	Name:     "王子新材",
 				// 	UpdateFn: stock.CreateUpdateFromEast("0.002735"),
 				// },
 				{
-					Name:     "三峡",
-					UpdateFn: stock.CreateUpdateFromEast("0.000565"),
+					Code: "000565",
+					// Name:     "三峡",
+					// UpdateFn: stock.CreateUpdateFromEast("0.000565"),
+					// UpdateFn: func() *stock.Stock {
+					// 	return stock.GetInfoFromSina([]string{"000565"})["000565"]
+					// },
 				},
 			},
 		},

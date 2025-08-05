@@ -29,17 +29,17 @@ func shorsz(code string) string {
 }
 
 func GetInfoFromSina(codes []string) map[string]*Stock {
-	// curl -H 'Referer: https://finance.sina.com.cn' 'https://hq.sinajs.cn?codeList=sh512820' | iconv -f GB2312 -t UTF-8
+	// curl -H 'Referer: https://finance.sina.com.cn' 'https://hq.sinajs.cn?list=sh512820' | iconv -f GB2312 -t UTF-8
 	var codeList []string
 
 	for _, code := range codes {
 		codeList = append(codeList, shorsz(code)+code)
 	}
 
-	body := utils.Fetch("https://hq.sinajs.cn", &utils.FetchOptions{
-		Query: map[string]string{
-			"list": strings.Join(codeList, ","),
-		},
+	body := utils.Fetch("https://hq.sinajs.cn?list="+strings.Join(codeList, ","), &utils.FetchOptions{
+		// Query: map[string]string{
+		// 	"list": strings.Join(codeList, ","),
+		// },
 		Headers: map[string]string{
 			"Referer": "https://finance.sina.com.cn",
 		},

@@ -25,7 +25,9 @@ func (m StockListModel) propagate(msg tea.Msg) (StockListModel, tea.Cmd) {
 	curIndex := m.list.Index()
 	if lastIndex != curIndex {
 		go func() {
+			// 切换菜单，并刷新数据
 			store.State.MarketIndex = m.list.Index()
+			store.State.Update()
 			store.Send(store.CMD_UPDATE(""))
 		}()
 	}
