@@ -2,6 +2,7 @@ package stock
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/shalldie/leek/internal/utils"
@@ -34,10 +35,12 @@ func f2str(num float64, maxDec int32) string {
 }
 
 type Stock struct {
+	// 代码
+	Code string
 	// 名称
 	Name string
-	// 用于更新数据的 fn，返回 「当前价格、昨收价格」
-	UpdateFn func() (float64, float64)
+	// 用于更新数据的 fn，返回 「名称、当前价格、昨收价格」
+	UpdateFn func() *Stock
 
 	// 当前价格
 	Price string
@@ -49,6 +52,37 @@ type Stock struct {
 	Rate string
 }
 
+func (s *Stock) Assign(st *Stock) {
+	s.Price = st.Price
+	s.PrePrice = st.PrePrice
+	if len(st.Name) > 0 {
+		s.Name = st.Name
+	}
+}
+
+// 根据 price、prePrice 进行计算、着色
+func (s *Stock) Compute() {
+	price, _ := strconv.ParseFloat(s.Price, 64)
+	prePrice, _ := strconv.ParseFloat(s.PrePrice, 64)
+	// price, prePrice := s.UpdateFn()
+	rise := price - prePrice
+	rate := rise / prePrice
+
+	s.Price = f2str(price, 3)
+	s.PrePrice = f2str(prePrice, 3)
+	s.Rise = f2str(rise, 3)
+	s.Rate = f2str(rate*100, 2) + "%"
+
+	// 着色，添加 「+」
+	if rise >= 0 {
+		s.Rise = lipgloss.NewStyle().Foreground(COLOR_RED).Render("+" + s.Rise)
+		s.Rate = lipgloss.NewStyle().Foreground(COLOR_RED).Render("+" + s.Rate)
+	} else {
+		s.Rise = lipgloss.NewStyle().Foreground(COLOR_GREEN).Render(s.Rise)
+		s.Rate = lipgloss.NewStyle().Foreground(COLOR_GREEN).Render(s.Rate)
+	}
+}
+
 func (s *Stock) Reset() {
 	s.Price = "-"
 	s.PrePrice = "-"
@@ -57,24 +91,11 @@ func (s *Stock) Reset() {
 }
 
 func (s *Stock) Update() {
+
 	err := utils.Try(func() {
-		price, prePrice := s.UpdateFn()
-		rise := price - prePrice
-		rate := rise / prePrice
-
-		s.Price = f2str(price, 3)
-		s.PrePrice = f2str(prePrice, 3)
-		s.Rise = f2str(rise, 3)
-		s.Rate = f2str(rate*100, 2) + "%"
-
-		// 着色，添加 「+」
-		if rise >= 0 {
-			s.Rise = lipgloss.NewStyle().Foreground(COLOR_RED).Render("+" + s.Rise)
-			s.Rate = lipgloss.NewStyle().Foreground(COLOR_RED).Render("+" + s.Rate)
-		} else {
-			s.Rise = lipgloss.NewStyle().Foreground(COLOR_GREEN).Render(s.Rise)
-			s.Rate = lipgloss.NewStyle().Foreground(COLOR_GREEN).Render(s.Rate)
-		}
+		nextStock := s.UpdateFn()
+		s.Assign(nextStock)
+		s.Compute()
 	})
 
 	if err != nil {
