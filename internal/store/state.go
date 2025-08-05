@@ -44,27 +44,6 @@ var State = &storeState{
 	MarketIndex: 0,
 	Markets: []*stock.StockMarket{
 		{
-			Name: "黄金",
-			Stocks: []*stock.Stock{
-				{
-					Name:     "AU9999",
-					UpdateFn: stock.CreateUpdateFromEast("118.AU9999"),
-				},
-				{
-					Name:     "沪金主连",
-					UpdateFn: stock.CreateUpdateFromSina("nf_AU0", 6, 10),
-				},
-				{
-					Name:     "伦敦金",
-					UpdateFn: stock.CreateUpdateFromSina("hf_XAU", 0, 7),
-				},
-				{
-					Name:     "纽约金",
-					UpdateFn: stock.CreateUpdateFromSina("hf_GC", 0, 7),
-				},
-			},
-		},
-		{
 			Name: "A股", // sz:0 sh:1
 			Stocks: []*stock.Stock{
 				{
@@ -94,6 +73,27 @@ var State = &storeState{
 					// UpdateFn: func() *stock.Stock {
 					// 	return stock.GetInfoFromSina([]string{"000565"})["000565"]
 					// },
+				},
+			},
+		},
+		{
+			Name: "黄金",
+			Stocks: []*stock.Stock{
+				{
+					Name:     "AU9999",
+					UpdateFn: stock.CreateUpdateFromEast("118.AU9999"),
+				},
+				{
+					Name:     "沪金主连",
+					UpdateFn: stock.CreateUpdateFromSina("nf_AU0", 6, 10),
+				},
+				{
+					Name:     "伦敦金",
+					UpdateFn: stock.CreateUpdateFromSina("hf_XAU", 0, 7),
+				},
+				{
+					Name:     "纽约金",
+					UpdateFn: stock.CreateUpdateFromSina("hf_GC", 0, 7),
 				},
 			},
 		},

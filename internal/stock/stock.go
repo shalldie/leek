@@ -34,6 +34,11 @@ func f2str(num float64, maxDec int32) string {
 	// return result
 }
 
+type StockMarket struct {
+	Name   string
+	Stocks []*Stock
+}
+
 type Stock struct {
 	// 代码
 	Code string
