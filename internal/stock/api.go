@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math"
+	"regexp"
 	"strings"
 
 	"github.com/shalldie/leek/internal/utils"
@@ -12,11 +14,38 @@ import (
 	"golang.org/x/text/transform"
 )
 
-func CreateUpdateFromEast(secid string) func() *Stock {
+// 判断是哪个交易所
+// 沪: sh, 1
+// 深: sz, 0
+func shorsz10(code string) string {
+	// 沪市主板	600/601	600519	大盘蓝筹股
+	// 深市主板	000/001	000001	传统行业龙头股
+	marketMap := map[string]string{
+		"1": "^(60|68|688|900|51|50|52)",
+		"0": "^(00|30|20|15|16)",
+	}
+
+	for key, pattern := range marketMap {
+		if m, _ := regexp.MatchString(pattern, code); m {
+			return key
+		}
+	}
+	return ""
+}
+
+func CreateUpdateFromEast(code string) func() *Stock {
+
+	secid := code
+	prefix := shorsz10(code)
+	if len(prefix) > 0 {
+		secid = prefix + "." + secid
+	}
+
 	return func() *Stock {
 		body := utils.Fetch("https://push2.eastmoney.com/api/qt/stock/get", &utils.FetchOptions{
 			Query: map[string]string{
-				"fields": "f43,f169,f170,f58",
+				// f59（缩小倍数，10的n次方）、f43（最新价格）、f57（股票代码）、f58（股票名称）、f169（涨跌额）、f170（涨跌幅）
+				"fields": "f59,f43,f169,f170,f58,f57",
 				"secid":  secid,
 			},
 		})
@@ -27,8 +56,10 @@ func CreateUpdateFromEast(secid string) func() *Stock {
 
 		data := result["data"].(map[string]interface{}) // 强制转换为 map
 
-		price := data["f43"].(float64) / 100
-		rise := data["f169"].(float64) / 100
+		scale := math.Pow(10, data["f59"].(float64))
+
+		price := data["f43"].(float64) / scale
+		rise := data["f169"].(float64) / scale
 		prePrice := price - rise
 
 		return &Stock{

@@ -11,7 +11,7 @@ import (
 )
 
 type ConfigModel struct {
-	A []string `json:"a"`
+	Codes []string `json:"codes"`
 }
 
 func init() {
@@ -26,7 +26,6 @@ func init() {
 	// 读取文件内容
 	content, err := os.ReadFile(configPath)
 	if err != nil {
-		// fmt.Printf("无法读取配置文件: %v\n", err)
 		return
 	}
 
@@ -34,17 +33,20 @@ func init() {
 	var config ConfigModel
 	err = json.Unmarshal(content, &config)
 	if err != nil {
-		// fmt.Printf("无法解析配置文件: %v\n", err)
+		return
+	}
+
+	// 无配置
+	if len(config.Codes) <= 0 {
 		return
 	}
 
 	// 使用配置
-	// fmt.Printf("成功读取配置: %+v\n", config)
 	market := &stock.StockMarket{
 		Name:   "自选",
 		Stocks: []*stock.Stock{},
 	}
-	for _, code := range config.A {
+	for _, code := range config.Codes {
 		market.Stocks = append(market.Stocks, &stock.Stock{Code: code})
 	}
 

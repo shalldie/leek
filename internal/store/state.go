@@ -47,32 +47,19 @@ var State = &storeState{
 			Name: "A股", // sz:0 sh:1
 			Stocks: []*stock.Stock{
 				{
-					// Name: "银行ETF龙头",
-					Code: "512820",
-					// UpdateFn: stock.CreateUpdateFromEast("1.512820"),
-					// UpdateFn: stock.CreateUpdateFromSina("sh512820", 3, 2),
-					// UpdateFn: func() *stock.Stock {
-					// 	return stock.GetInfoFromSina([]string{"512820"})["512820"]
-					// },
+					Code: "1.000001", // 上证指数
 				},
 				{
-					// Name: "王子新材",
-					Code: "002735",
-					// UpdateFn: func() *stock.Stock {
-					// 	return stock.GetInfoFromSina([]string{"002735"})["002735"]
-					// },
+					Code: "0.399001", // 深证成指
 				},
-				// {
-				// 	Name:     "王子新材",
-				// 	UpdateFn: stock.CreateUpdateFromEast("0.002735"),
-				// },
 				{
-					Code: "000565",
-					// Name:     "三峡",
-					// UpdateFn: stock.CreateUpdateFromEast("0.000565"),
-					// UpdateFn: func() *stock.Stock {
-					// 	return stock.GetInfoFromSina([]string{"000565"})["000565"]
-					// },
+					Code: "1.000016", // 上证50
+				},
+				{
+					Code: "1.000300", // 沪深300
+				},
+				{
+					Code: "1.000688", // 科创50
 				},
 			},
 		},
@@ -80,12 +67,12 @@ var State = &storeState{
 			Name: "黄金",
 			Stocks: []*stock.Stock{
 				{
-					Name:     "AU9999",
-					UpdateFn: stock.CreateUpdateFromEast("118.AU9999"),
+					Code: "118.AU9999", // AU9999
 				},
 				{
-					Name:     "沪金主连",
-					UpdateFn: stock.CreateUpdateFromSina("nf_AU0", 6, 10),
+					Code: "113.aum",
+					// Name:     "沪金主连",
+					// UpdateFn: stock.CreateUpdateFromSina("nf_AU0", 6, 10),
 				},
 				{
 					Name:     "伦敦金",
@@ -101,8 +88,16 @@ var State = &storeState{
 			Name: "美股",
 			Stocks: []*stock.Stock{
 				{
-					Name:     "纳斯达克100",
-					UpdateFn: stock.CreateUpdateFromEast("100.NDX100"),
+					Code: "100.DJIA", // 道琼斯
+				},
+				{
+					Code: "100.SPX", // 标普500
+				},
+				{
+					Code: "100.NDX", // 纳斯达克
+				},
+				{
+					Code: "100.NDX100", // 纳斯达克100
 				},
 			},
 		},

@@ -100,9 +100,10 @@ func (s *Stock) Update() {
 	err := utils.Try(func() {
 		updateFn := s.UpdateFn
 		if updateFn == nil {
-			updateFn = func() *Stock {
-				return GetInfoFromSina([]string{s.Code})[s.Code]
-			}
+			// updateFn = func() *Stock {
+			// 	return GetInfoFromSina([]string{s.Code})[s.Code]
+			// }
+			updateFn = CreateUpdateFromEast(s.Code)
 		}
 		nextStock := updateFn()
 		s.Assign(nextStock)
