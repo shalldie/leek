@@ -71,8 +71,6 @@ var State = &storeState{
 				},
 				{
 					Code: "113.aum",
-					// Name:     "沪金主连",
-					// UpdateFn: stock.CreateUpdateFromSina("nf_AU0", 6, 10),
 				},
 				{
 					Name:     "伦敦金",

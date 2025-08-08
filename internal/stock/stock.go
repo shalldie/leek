@@ -93,6 +93,10 @@ func (s *Stock) Reset() {
 	s.PrePrice = "-"
 	s.Rise = "-"
 	s.Rate = "-"
+
+	if len(s.Name) <= 0 {
+		s.Name = "-"
+	}
 }
 
 func (s *Stock) Update() {
