@@ -1,11 +1,11 @@
 # leek
 
-<!-- [![Release Version](https://img.shields.io/github/v/release/shalldie/leek?display_name=tag&logo=github&style=flat-square)](https://github.com/shalldie/leek)
+[![Release Version](https://img.shields.io/github/v/release/shalldie/leek?display_name=tag&logo=github&style=flat-square)](https://github.com/shalldie/leek)
 [![Docker Image Version](https://img.shields.io/docker/v/shalldie/leek/latest?style=flat-square&logo=docker)](https://hub.docker.com/r/shalldie/leek/tags)
 [![Go Version](https://img.shields.io/github/go-mod/go-version/shalldie/leek?label=go&logo=go&style=flat-square)](https://github.com/shalldie/leek)
 [![Go Reference](https://pkg.go.dev/badge/github.com/shalldie/leek.svg)](https://pkg.go.dev/github.com/shalldie/leek)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/shalldie/leek/ci.yml?logo=github&style=flat-square)](https://github.com/shalldie/leek/actions)
-[![License](https://img.shields.io/github/license/shalldie/leek?logo=github&style=flat-square)](https://github.com/shalldie/leek) -->
+[![License](https://img.shields.io/github/license/shalldie/leek?logo=github&style=flat-square)](https://github.com/shalldie/leek)
 
 查询当前 `大A` 行情的 cli 工具。
 
