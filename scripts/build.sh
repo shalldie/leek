@@ -31,4 +31,4 @@ for os_name in ${TARGET_OS_NAMES[*]}; do
 
 done
 
-upx output/leek.*
+upx output/leek.* --force-macos
